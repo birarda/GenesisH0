@@ -15,7 +15,7 @@ def main():
   output_script = create_output_script(options.pubkey)
 
   # hash merkle root is the double sha256 hash of the transaction(s) 
-  tx = create_transaction(input_script, output_script)
+  tx = create_transaction(input_script, output_script, options)
   hash_merkle_root = hashlib.sha256(hashlib.sha256(tx).digest()).digest()
   print_block_info(options, hash_merkle_root)
 
@@ -63,7 +63,7 @@ def create_output_script(pubkey):
   return (script_len + pubkey + OP_CHECKSIG).decode('hex')
 
 
-def create_transaction(input_script, output_script):
+def create_transaction(input_script, output_script, options):
   transaction = Struct("transaction",
     Bytes("version", 4),
     Byte("num_inputs"),
@@ -87,7 +87,7 @@ def create_transaction(input_script, output_script):
   tx.input_script      = input_script
   tx.sequence          = 0xFFFFFFFF
   tx.num_outputs       = 1
-  tx.out_value         = struct.pack('<q' , hex(100000000 * coinbase_value)) 
+  tx.out_value         = struct.pack('<q' , 100000000 * options.coinbase_value) 
   tx.output_script_len = 0x43
   tx.output_script     = output_script
   tx.locktime          = 0 

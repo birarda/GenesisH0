@@ -87,7 +87,7 @@ def create_transaction(input_script, output_script):
   tx.input_script      = input_script
   tx.sequence          = 0xFFFFFFFF
   tx.num_outputs       = 1
-  tx.out_value         = struct.pack('<q' , 100000000 * coinbase_value) 
+  tx.out_value         = struct.pack('<q' , hex(100000000 * coinbase_value)) 
   tx.output_script_len = 0x43
   tx.output_script     = output_script
   tx.locktime          = 0 

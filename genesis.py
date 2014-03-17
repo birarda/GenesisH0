@@ -36,6 +36,9 @@ def get_args():
                     help="calculate genesis block using scrypt")
   parser.add_option("-p", "--pubkey", dest="pubkey", default="04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f",
                    type="string", help="the pubkey found in the output script")
+  parser.add_option("-v", "--value", dest="coinbase_value", default="50",
+                    type="int", help="the number of coins to be awarded in the coinbase transaction")
+                
 
   (options, args) = parser.parse_args()
   return options
@@ -84,7 +87,7 @@ def create_transaction(input_script, output_script):
   tx.input_script      = input_script
   tx.sequence          = 0xFFFFFFFF
   tx.num_outputs       = 1
-  tx.out_value         = struct.pack('<q' ,0x000000012a05f200) #50 coins
+  tx.out_value         = struct.pack('<q' , 100000000 * coinbase_value) 
   tx.output_script_len = 0x43
   tx.output_script     = output_script
   tx.locktime          = 0 
